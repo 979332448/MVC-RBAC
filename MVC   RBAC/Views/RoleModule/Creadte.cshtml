@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Creadte";
+    Layout = "~/Views/_LayFormPage1.cshtml";
+}
+
+<form class="bootstrap-frm">
+    <h1>模块管理 - 新增</h1>
+    <label>
+        <span>选择角色</span>
+        @Html.DropDownList("RoleId",(IEnumerable<SelectListItem>)ViewBag.RoleOptiuns)
+    </label>
+    <label>
+        <span>选择模块</span>
+        @Html.DropDownList("ModuleId", (IEnumerable<SelectListItem>)ViewBag.ModulOptiuns)
+    </label>
+    <label>
+        <span>&nbsp;</span>
+        <input type="button" class="button" value="提交" />
+    </label>
+</form>
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+@section Script
+{
+    <script>
+        $(".button").click(function () {
+            $.ajax({
+                url: '@Url.Action("Insert", "RoleModule")',
+                type: "post",
+                data: $("form").serialize(),
+                success: function (data) {
+                    if (data.code === 200) {
+                        //关闭窗体
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        //刷新页面
+                        parent.location.reload();
+
+                    }
+                    else {
+                        alert("提交失败")
+                    }
+                }
+
+            })
+        })
+    </script>
+}

@@ -1,0 +1,41 @@
+﻿@model MVC___RBAC.Models.Role
+@{
+    Layout = "~/Views/_LayFormPage1.cshtml";
+}
+<form class="bootstrap-frm">
+    <h1>角色管理 - 编辑</h1>
+    <label>
+        <span>ID</span>
+        <input type="text" readonly="" value="@Model.Id" name="Id" />
+    </label>
+    <label>
+        <span>模块名称</span>
+        <input type="text" placeholder="请输入模块名称" value="@Model.Name" name="Name" />
+    </label>
+        <span>&nbsp;</span>
+        <input type="button" class="button" value="提交" />
+</form>
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+@section Script
+{
+    <script>
+        $(".button").click(function () {
+            $.ajax({
+                url: '@Url.Action("Add","Role")',
+                type: "post",
+                data: $("form").serialize(),
+                success: function (data) {
+                    if (data.code === 200) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    }
+                    else {
+                        alert("提交失败")
+                    }
+                }
+
+            })
+        })
+    </script>
+}

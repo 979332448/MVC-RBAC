@@ -1,0 +1,52 @@
+﻿@model MVC___RBAC.VeirMdels.UserRole
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/_LayFormPage1.cshtml";
+}
+
+<form class="bootstrap-frm">
+    <h1>用户角色 - 编辑</h1>
+    <input type="hidden" name="UserId" value="@Model.UserId" />
+    <input type="hidden" name="RoleId" value="@Model.RoleId" />
+    <label>
+        <span>用户名称</span>
+        <input type="text" name="RoleName" disabled="disabled" value="@Model.UserName" />
+    </label>
+    <label>
+        <span>角色名称</span>
+        <input type="text" name="ModuleName" disabled="disabled" value="@Model.RoleName" />
+    </label>
+    <label>
+        <span>角色名称</span>
+        @Html.DropDownList("UpdateRoleId", (IEnumerable<SelectListItem>)ViewBag.RoleOptiuns)
+    </label>
+    <label>
+        <span>&nbsp;</span>
+        <input type="button" class="button" value="提交" />
+    </label>
+</form>
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+@section Script
+{
+    <script>
+        $(".button").click(function () {
+            $.ajax({
+                url: '@Url.Action("Update", "UserRole")',
+                type: "post",
+                data: $("form").serialize(),
+                success: function (data) {
+                    if (data.code === 200) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.location.reload();
+                    }
+                    else {
+                        alert("提交失败")
+                    }
+                }
+
+            })
+        })
+    </script>
+}
+
